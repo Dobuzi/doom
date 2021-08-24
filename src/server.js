@@ -26,8 +26,8 @@ wss.on("connection", (socket) => {
     console.log("Connected to Browser 😍")
     socket.on("close", () => console.log("Disconneted from the Browser ❎"))
     socket.on("message", (message) => {
-        console.log(message.toString('utf8'))
-        sockets.forEach((s) => s.send(message.toString('utf8')))
+        console.log(message)
+        sockets.forEach((s) => s.send(message))
     })
 })
 
