@@ -22,12 +22,21 @@ const wss = new WebSocket.Server({ server })
 const sockets = []
 
 wss.on("connection", (socket) => {
+    socket["nickname"] = "Anonymous"
     sockets.push(socket)
     console.log("Connected to Browser 😍")
     socket.on("close", () => console.log("Disconneted from the Browser ❎"))
     socket.on("message", (message) => {
-        console.log(message)
-        sockets.forEach((s) => s.send(message))
+        const parsedMessage = JSON.parse(message)
+        console.log(parsedMessage)
+        switch (parsedMessage.type) {
+            case "nickname":
+                socket["nickname"] = parsedMessage.payload
+                break
+            case "new_message":
+                sockets.forEach((s) => s.send(`${socket.nickname}: ${parsedMessage.payload}`))
+                break
+        }
     })
 })
 

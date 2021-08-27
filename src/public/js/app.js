@@ -6,7 +6,7 @@ const socket = new WebSocket(`ws://${window.location.host}`)
 
 function makeMessage(type, payload) {
     const msg = { type, payload }
-    return JSON.stringify(msg)
+    return JSON.stringify(msg).toString("utf8")
 }
 
 socket.addEventListener("open", () => {
@@ -14,10 +14,10 @@ socket.addEventListener("open", () => {
 })
 
 socket.addEventListener("message", (message) => {
+    console.log(message)
     const li = document.createElement("li")
     li.innerText = message.data
     messageList.append(li)
-    console.log(message.data)
 })
 
 socket.addEventListener("close", () => {
